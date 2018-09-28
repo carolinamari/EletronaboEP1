@@ -8,7 +8,7 @@ g  = 0.04;
 h = (b - d)/2;
 delta = 0.001;
 erro = 0.0001 
-dif = 1
+dif = 0.0001
 m = b/delta + 1;  % Linhas totais na matriz  
 n = a/delta + 1;  % Colunas totais na matriz
 % Limites do retangulo menor
@@ -29,11 +29,52 @@ for i = L1:L2
     
     else
       M(i, j) = NaN;
+    end
   end
 end
 
 % Iteracoes 
-while dif > erro
-  for i = 2:L1
-    for j = 2:
-      anterior = (M() + M() + M() + M())/4
+while dif >= erro
+  
+  % Calculo do potencial acima do retangulo
+  for i = 2:L1 - 1
+    for j = 2:n - 1
+      anterior = M(i, j);
+      M(i, j) = M(i - 1, j) + M(i + 1, j) + M(i, j - 1) + M(i, j + 1))/4;
+      if abs(anterior - M(i, j)) > dif
+        dif = abs(anterior - M(i, j));
+      end
+    end
+  end
+  
+  % Calculo do potencial ao lado do retangulo
+  for i = L1:L2
+    for j1 = 2:C1 - 1
+      anterior = M(i, j1);
+      M(i, j1) = M(i - 1, j1) + M(i + 1, j1) + M(i, j1 - 1) + M(i, j1 + 1))/4;
+      if abs(anterior - M(i, j1)) > dif
+        dif = abs(anterior - M(i, j1));
+      end
+    end
+    
+    for j2 = C2 + 1:n - 1 
+      anterior = M(i, j2);
+      M(i, j2) = M(i - 1, j2) + M(i + 1, j2) + M(i, j2 - 1) + M(i, j2 + 1))/4;
+      if abs(anterior - M(i, j2)) > dif
+        dif = abs(anterior - M(i, j2));
+      end
+    end
+  end
+  
+  % Calculo do potencial abaixo do retangulo
+  for i = L2 + 1: m - 1
+    for j = 2:n - 1
+      anterior = M(i, j);
+      M(i, j) = M(i - 1, j) + M(i + 1, j) + M(i, j - 1) + M(i, j + 1))/4;
+      if abs(anterior - M(i, j)) > dif
+        dif = abs(anterior - M(i, j));
+      end
+    end
+  end
+
+end
