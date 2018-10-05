@@ -1,3 +1,4 @@
+tic
 %%% Definicao dos parametros %%%
 
 a = 0.11;
@@ -38,7 +39,7 @@ for i = (L1 + L2)/2:L2 - 1
 end
 
 % Iteracoes em metade do problema
-for num = 1:1
+for num = 1:50000
   
   % Calculo do potencial ao lado do retangulo
   for i = (L1 + L2)/2 + 1:L2 - 1
@@ -109,3 +110,4 @@ end
 
 % Plot do mapa
 contour(D)
+toc
